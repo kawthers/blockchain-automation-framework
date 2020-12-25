@@ -30,7 +30,7 @@ spec:
       authpath: {{ component_name | e }}-auth
       secretcert: {{ vault.secret_path | default('secret') }}/crypto/peerOrganizations/{{ component_name | e }}/ca/ca.{{ component_name | e }}-cert.pem
       secretkey: {{ vault.secret_path | default('secret') }}/crypto/peerOrganizations/{{ component_name | e }}/ca/{{ component_name | e }}-CA.key
-      secretadminpass: {{ vault.secret_path | default('secret') }}/credentials/{{ component_name | e }}/ca/{{ component }}?user
+      secretadminpass: {{ vault.secret_path | default('secret') }}/credentials/{{ component_name | e }}/ca/{{ component }}/user
       serviceaccountname: vault-auth
       imagesecretname: regcred
     service:
