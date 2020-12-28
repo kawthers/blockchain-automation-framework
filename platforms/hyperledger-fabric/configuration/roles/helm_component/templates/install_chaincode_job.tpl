@@ -33,7 +33,7 @@ spec:
       orderersecretprefix: {{ vault.secret_path | default('secret') }}/crypto/peerOrganizations/{{ namespace }}/orderer
       serviceaccountname: vault-auth
       imagesecretname: regcred
-      secretgitprivatekey: {{ vault.secret_path | default('secret') }}/credentials/{{ namespace }}/git/git_password
+      secretgitprivatekey: {{ vault.secret_path | default('secret') }}/credentials/{{ namespace }}/git?git_password
       tls: false
     orderer:
       address: {{ orderer_address }}
