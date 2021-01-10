@@ -48,6 +48,6 @@ ENV PATH=/root/bin:/root/.local/bin/:$PATH
 #path to mount the repo
 VOLUME /home/blockchain-automation-framework/
 
-RUN if [ "$command" == "run" ]; then CMD ["/home/run.sh"]; 
+RUN if [ "$command" = "run" ] ; then CMD ["/home/run.sh"];  fi
 
-RUN if [ "$command" == "reset" ]; then CMD ["/home/reset.sh"];
+RUN if [ "$command" == "reset" ]; then CMD ["/home/reset.sh"];  fi
