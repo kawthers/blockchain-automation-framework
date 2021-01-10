@@ -48,4 +48,4 @@ ENV PATH=/root/bin:/root/.local/bin/:$PATH
 #path to mount the repo
 VOLUME /home/blockchain-automation-framework/
 
-CMD ["/home/env.sh"];
+CMD ["/home/env-kube.sh"];
