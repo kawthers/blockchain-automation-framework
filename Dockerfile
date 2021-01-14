@@ -34,14 +34,8 @@ RUN mkdir /etc/ansible/
 RUN /bin/echo -e "[ansible_provisioners:children]\nlocal\n[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 # Copy the provisional script to build container
-COPY ./run.sh /home
-COPY ./reset.sh /home
-COPY ./env.sh /home
-COPY ./env-kube.sh /home
-RUN chmod 755 /home/run.sh
-RUN chmod 755 /home/reset.sh
-RUN chmod 755 /home/env.sh
-RUN chmod 755 /home/env-kube.sh
+COPY ./hospital_run_kube_env.sh /home
+RUN chmod 755 /home/hospital_run_kube_env.sh
 ENV PATH=/root/bin:/root/.local/bin/:$PATH
 
 # The mounted repo should contain a build folder with the following files
@@ -52,4 +46,4 @@ ENV PATH=/root/bin:/root/.local/bin/:$PATH
 #path to mount the repo
 VOLUME /home/blockchain-automation-framework/
 
-CMD ["/home/reset.sh"];
+CMD ["/home/hospital_run_kube_env.sh"];
