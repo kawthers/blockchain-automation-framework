@@ -38,6 +38,8 @@ COPY ./hospital_reset.sh /home
 RUN chmod 755 /home/hospital_reset.sh
 COPY ./hospital_run.sh /home
 RUN chmod 755 /home/hospital_run.sh
+COPY ./hospital_run_kube_env.sh /home
+RUN chmod 755 /home/hospital_run_kube_env.sh
 ENV PATH=/root/bin:/root/.local/bin/:$PATH
 
 # The mounted repo should contain a build folder with the following files
