@@ -38,6 +38,8 @@ COPY ./reset.sh /home
 RUN chmod 755 /home/reset.sh
 COPY ./run.sh /home
 RUN chmod 755 /home/run.sh
+COPY ./env-kube.sh /home
+RUN chmod 755 /home/env-kube.sh
 ENV PATH=/root/bin:/root/.local/bin/:$PATH
 
 # The mounted repo should contain a build folder with the following files
