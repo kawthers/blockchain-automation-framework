@@ -1,0 +1,54 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: bfs-orderer3
+  namespace: bfs-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: bfs-orderer3
+  chart:
+    git: ssh://git@github.com/bfsmaksym/blockchain-automation-framework.git
+    ref: master
+    path: platforms/hyperledger-fabric/charts/orderernode
+  values:
+    metadata:
+      namespace: bfs-net
+      images:
+        orderer: hyperledger/fabric-orderer:2.2.0
+        alpineutils: index.docker.io/wmcgroup777/alpine-utils:1.0
+
+    orderer:
+      name: orderer3
+      loglevel: info
+      localmspid: bfsMSP
+      tlsstatus: true
+      keepaliveserverinterval: 10s
+    
+    consensus:
+      name: raft
+
+    storage:
+      storageclassname: bfssc
+      storagesize: 512Mi  
+
+    service:
+      servicetype: ClusterIP
+      ports:
+        grpc:
+          clusteripport: 8443
+
+    vault:
+      address: https://vault.bfs-network.name:8200
+      role: vault-role
+      authpath: bfs-net-auth
+      secretprefix: secret/crypto/ordererOrganizations/bfs-net/orderers/orderer3.bfs-net
+      imagesecretname: regcred
+      serviceaccountname: vault-auth
+
+    proxy:
+      provider: haproxy
+      external_url_suffix: ambassador.bfs-network.name
+
+    genesis: |-
+      
