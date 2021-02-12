@@ -1,0 +1,49 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: anchorpeer-allchannel-hospital
+  namespace: hospital-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: anchorpeer-allchannel-hospital
+  chart:
+    git: ssh://git@github.com/kawthers/blockchain-automation-framework.git
+    ref: develop
+    path: platforms/hyperledger-fabric/charts/anchorpeer
+  values:
+    metadata:
+      namespace: hospital-net
+      images:
+        fabrictools: hyperledger/fabric-tools:2.2.0
+        alpineutils: index.docker.io/wmcgroup777/alpine-utils:1.0
+
+    peer:
+      name: peer0
+      address: peer0.hospital-net.ambassador2.bfs-network.name:8443
+      localmspid: hospitalMSP
+      loglevel: debug
+      tlsstatus: true
+
+    vault:
+      role: vault-role
+      address: https://vault.bfs-network.name:8200
+      authpath: hospital-net-auth
+      adminsecretprefix: secret/crypto/peerOrganizations/hospital-net/users/admin
+      orderersecretprefix: secret/crypto/peerOrganizations/hospital-net/orderer
+      serviceaccountname: vault-auth
+      imagesecretname: regcred
+
+    channel:
+      name: allchannel      
+    orderer:
+      address: orderer1.bfs-net:7050
+    anchorstx: |-
+      CtgCChgKFggCGgYI+4ecgQYiCmFsbGNoYW5uZWwSuwIKuAIKCmFsbGNoYW5uZWwSZBJiCgtBcHBs
+      aWNhdGlvbhJTCAESTwoLaG9zcGl0YWxNU1ASQBoHCgNNU1ASACIKCgZBZG1pbnMSACIPCgtFbmRv
+      cnNlbWVudBIAIgsKB1JlYWRlcnMSACILCgdXcml0ZXJzEgAawwESwAEKC0FwcGxpY2F0aW9uErAB
+      CAESqwEKC2hvc3BpdGFsTVNQEpsBCAEaBwoDTVNQEgAaTwoLQW5jaG9yUGVlcnMSQBI2CjQKL3Bl
+      ZXIwLmhvc3BpdGFsLW5ldC5hbWJhc3NhZG9yMi5iZnMtbmV0d29yay5uYW1lEPtBGgZBZG1pbnMi
+      CwoHUmVhZGVycxIAIgsKB1dyaXRlcnMSACIKCgZBZG1pbnMSACIPCgtFbmRvcnNlbWVudBIAKgZB
+      ZG1pbnM=
+
