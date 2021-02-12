@@ -194,7 +194,7 @@ spec:
           else
             ## check commit readiness
             echo "peer query commit readiness"
-            peer lifecycle chaincode checkcommitreadiness --channelID ${CHANNEL_NAME} --name ${CHAINCODE_NAME} --version ${CHAINCODE_VERSION} --sequence ${CHAINCODE_VERSION} --init-required --output json --signature-policy {{ $.Values.chaincode.endorsementpolicies | quote }} > log.txt
+            peer lifecycle chaincode checkcommitreadiness --channelID ${CHANNEL_NAME} --name ${CHAINCODE_NAME} --version ${CHAINCODE_VERSION} --sequence ${CHAINCODE_VERSION} --init-required --output json --signature-policy "OR('hospitalMSP.peer', 'insuranceMSP.peer')" > log.txt
             cat log.txt
             ## commit chaincode
             echo "peer query commit"

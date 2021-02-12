@@ -145,7 +145,7 @@ spec:
           else
             ## approve for myorg
             echo "peer query approve with endorsement policies"
-            peer lifecycle chaincode approveformyorg -o ${ORDERER_URL} --tls ${CORE_PEER_TLS_ENABLED} --cafile ${ORDERER_CA} --channelID ${CHANNEL_NAME} --name ${CHAINCODE_NAME} --version ${CHAINCODE_VERSION} --package-id ${PACKAGE_ID} --sequence ${CHAINCODE_VERSION} --init-required --signature-policy {{ $.Values.chaincode.endorsementpolicies | quote }} > log.txt  
+            peer lifecycle chaincode approveformyorg -o ${ORDERER_URL} --tls ${CORE_PEER_TLS_ENABLED} --cafile ${ORDERER_CA} --channelID ${CHANNEL_NAME} --name ${CHAINCODE_NAME} --version ${CHAINCODE_VERSION} --package-id ${PACKAGE_ID} --sequence ${CHAINCODE_VERSION} --init-required --signature-policy "OR('hospitalMSP.peer', 'insuranceMSP.peer')" > log.txt  
           fi
           
         env:
