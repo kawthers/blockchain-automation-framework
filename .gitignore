@@ -25,7 +25,7 @@
 # Ignore folder named 'build'
 **/build*/
 **/crypto-config*/*
-**/go/*
+# **/go/*
 **/*tmp*/
 **/flux_known_hosts
 **/fulcrum.iml
