@@ -1,0 +1,28 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: insurance-net-ca-tools
+  namespace: insurance-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: insurance-net-ca-tools
+  chart:
+    git: ssh://git@github.com/kawthers/blockchain-automation-framework.git
+    ref: master
+    path: platforms/hyperledger-fabric/charts/catools
+  values:
+    metadata:
+      namespace: insurance-net
+      name: ca-tools
+
+    replicaCount: 1
+
+    image:
+      repository: hyperledger/fabric-ca-tools
+      tag: 1.2.1
+      pullPolicy: IfNotPresent
+      
+    storage:
+      storageclassname: insurancesc
+      storagesize: 512Mi
