@@ -1,0 +1,41 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: joinchannel-peer0-join-allchannel-hospital-peer0
+  namespace: hospital-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: joinchannel-peer0-join-allchannel-hospital-peer0
+  chart:
+    git: ssh://git@github.com/kawthers/blockchain-automation-framework.git
+    ref: master
+    path: platforms/hyperledger-fabric/charts/join_channel
+  values:
+    metadata:
+      namespace: hospital-net
+      images:
+        fabrictools: hyperledger/fabric-tools:2.2.0
+        alpineutils: index.docker.io/wmcgroup777/alpine-utils:1.0
+
+    peer:
+      name: peer0
+      address: peer0.hospital-net.ambassador2.bfs-network.name:8443
+      localmspid: hospitalMSP
+      loglevel: debug
+      tlsstatus: true
+
+    vault:
+      role: vault-role
+      address: https://vault.bfs-network.name:8200
+      authpath: hospital-net-auth
+      adminsecretprefix: secret/crypto/peerOrganizations/hospital-net/users/admin
+      orderersecretprefix: secret/crypto/peerOrganizations/hospital-net/orderer
+      serviceaccountname: vault-auth
+      imagesecretname: regcred
+
+    channel:
+      name: allchannel      
+    orderer:
+      address: orderer1.bfs-net:7050
+
