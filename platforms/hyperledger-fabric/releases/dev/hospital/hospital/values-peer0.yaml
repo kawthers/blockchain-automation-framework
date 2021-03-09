@@ -1,0 +1,63 @@
+apiVersion: helm.fluxcd.io/v1
+kind: HelmRelease
+metadata:
+  name: hospital-peer0
+  namespace: hospital-net
+  annotations:
+    fluxcd.io/automated: "false"
+spec:
+  releaseName: hospital-peer0
+  chart:
+    git: ssh://git@github.com/kawthers/blockchain-automation-framework.git
+    ref: master
+    path: platforms/hyperledger-fabric/charts/peernode    
+  values:
+    metadata:
+      namespace: hospital-net
+      images:
+        couchdb: couchdb:3.1
+        peer: hyperledger/fabric-peer:2.2.0
+        alpineutils: index.docker.io/wmcgroup777/alpine-utils:1.0
+        
+    peer:
+      name: peer0
+      gossippeeraddress: peer0.hospital-net:7051
+      gossipexternalendpoint: peer0.hospital-net.ambassador2.bfs-network.name:8443
+      localmspid: hospitalMSP
+      loglevel: info
+      tlsstatus: true
+      builder: hyperledger/fabric-ccenv:2.2.0
+      couchdb:
+        username: hospital-user
+
+    storage:
+      peer:
+        storageclassname: hospitalsc
+        storagesize: 512Mi
+      couchdb:
+        storageclassname: hospitalsc
+        storagesize: 1Gi
+
+    vault:
+      role: vault-role
+      address: https://vault.bfs-network.name:8200
+      authpath: hospital-net-auth
+      secretprefix: secret/crypto/peerOrganizations/hospital-net/peers/peer0.hospital-net
+      secretambassador: secret/crypto/peerOrganizations/hospital-net/ambassador
+      serviceaccountname: vault-auth
+      imagesecretname: regcred
+      secretcouchdbpass: secret/credentials/hospital-net/couchdb/hospital?user
+
+    service:
+      servicetype: ClusterIP
+      ports:
+        grpc:
+          clusteripport: 7051
+        events:
+          clusteripport: 7053
+        couchdb:
+          clusteripport: 5984
+          
+    proxy:
+      provider: haproxy
+      external_url_suffix: ambassador2.bfs-network.name
